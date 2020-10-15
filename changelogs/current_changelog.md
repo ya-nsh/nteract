@@ -180,7 +180,7 @@ Provide a bulleted list of new features or improvements and a reference to the P
 
 #### Bug Fixes
 
-Provide a bulleted list of bug fixes and a reference to the PR(s) containing the changes.
+- Hide Monaco parameter widget when mouse moves into another editor cell ([#5301](https://github.com/nteract/nteract/pull/5301)).
 
 ### @nteract/mythic-configuration ([publish-version-here])
 

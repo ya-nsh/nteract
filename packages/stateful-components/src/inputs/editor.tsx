@@ -37,7 +37,7 @@ export interface EditorSlots {
 interface ComponentProps {
   id: string;
   contentRef: ContentRef;
-  children: EditorSlots;
+  children?: EditorSlots;
 }
 
 interface StateProps {
@@ -46,6 +46,7 @@ interface StateProps {
   value: string;
   channels: any;
   kernelStatus: string;
+  editorComponent?: any;
 }
 
 interface DispatchProps {
@@ -57,24 +58,36 @@ type Props = ComponentProps & StateProps & DispatchProps;
 
 export class Editor extends React.PureComponent<Props> {
   render(): React.ReactNode {
-    const { editorType, children } = this.props;
+    const { editorComponent, editorType, children } = this.props;
 
-    const chosenEditor = children ? children[editorType] : undefined;
+    const editorProps = {
+      id: this.props.id,
+      contentRef: this.props.contentRef,
+      editorType: this.props.editorType,
+      value: this.props.value,
+      editorFocused: this.props.editorFocused,
+      channels: this.props.channels,
+      kernelStatus: this.props.kernelStatus,
+      onChange: this.props.onChange,
+      onFocusChange: this.props.onFocusChange,
+      className: "nteract-cell-editor",
+    };
 
-    if (chosenEditor) {
-      return chosenEditor({
-        id: this.props.id,
-        contentRef: this.props.contentRef,
-        editorType: this.props.editorType,
-        value: this.props.value,
-        editorFocused: this.props.editorFocused,
-        channels: this.props.channels,
-        kernelStatus: this.props.kernelStatus,
-        onChange: this.props.onChange,
-        onFocusChange: this.props.onFocusChange,
-        className: "nteract-cell-editor"
-      });
+    /**
+     * We filter on the children Editor Slots and render the correct editorType
+     */
+    if (children && children[editorType]) {
+      const chosenEditor = children[editorType];
+      return chosenEditor(editorProps);
+    } else if(editorComponent) {
+    /**
+     * Fallback to the editor component stored in the state from dynamic import
+     * We'd eventually want to deprecate the static imports and move entirely to on-demand loading
+     */
+
+      return React.createElement(editorComponent, editorProps);
     }
+
     return null;
   }
 }
@@ -92,6 +105,7 @@ export const makeMapStateToProps = (
     let kernelStatus = "not connected";
     let value = "";
     const editorType = editorTypeConfig(state);
+    const editorComponent = selectors.editor(state, { id: editorType });
 
     if (model && model.type === "notebook") {
       const cell = selectors.notebook.cellById(model, { id });
@@ -114,6 +128,7 @@ export const makeMapStateToProps = (
       channels,
       kernelStatus,
       editorType,
+      editorComponent,
     };
   };
 

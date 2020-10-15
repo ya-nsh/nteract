@@ -1,6 +1,6 @@
 {
   "name": "nteract",
-  "version": "0.24.0",
+  "version": "0.25.1",
   "description": "Interactive literate coding notebook!",
   "main": "./lib/webpacked-main.js",
   "repository": "nteract/nteract",
@@ -73,7 +73,15 @@
       "target": [
         "dmg",
         "zip"
-      ]
+      ],
+      "hardenedRuntime": true,
+      "gatekeeperAssess": false,
+      "entitlements": "build/entitlements.mac.plist",
+      "entitlementsInherit": "build/entitlements.mac.plist"
+    },
+    "afterSign": "build/notarize.js",
+    "dmg": {
+      "sign": false
     },
     "asar": true,
     "asarUnpack": [
@@ -94,14 +102,7 @@
       "maintainer": "nteract contributors <jupyter@googlegroups.com>",
       "synopsis": "The nteract desktop application allows you to quickly view, edit, and publish notebooks from your desktop. It  is a great tool for first-time and veteran notebook users, alike.",
       "target": [
-        {
-          "target": "deb",
-          "arch": [
-            "arm64",
-            "x64"
-          ]
-        },
-        "snap",
+        "deb",
         "AppImage",
         "tar.gz"
       ],
@@ -136,7 +137,7 @@
     "@blueprintjs/core": "^3.7.0",
     "@nteract/data-explorer": "^8.0.0",
     "@nteract/examples": "3.2.0",
-    "@nteract/mathjax": "4.0.9",
+    "@nteract/mathjax": "4.0.11",
     "@nteract/transform-geojson": "^5.1.13",
     "@nteract/transform-plotly": "^6.1.10",
     "@nteract/transform-vdom": "^4.0.15",
@@ -158,12 +159,14 @@
     "@types/lodash.sample": "^4.2.6",
     "@types/lodash.sortby": "^4.7.6",
     "@types/lodash.throttle": "^4.1.6",
-    "electron": "7.3.2",
+    "electron": "7.3.3",
+    "electron-notarize": "^1.0.0",
     "file-loader": "^6.0.0",
+    "monaco-editor-webpack-plugin": "1.7.0",
     "utility-types": "^3.10.0"
   },
   "resolutions": {
-    "**/node-abi": "2.18.0",
-    "**/@nteract/mathjax": "4.0.9"
+    "**/node-abi": "2.19.1",
+    "**/@nteract/mathjax": "4.0.11"
   }
 }

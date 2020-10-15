@@ -1,7 +1,8 @@
-import { AppState, ContentRef, selectors } from "@nteract/core";
+import { AppState, ContentRef, selectors, actions } from "@nteract/core";
 import CodeMirrorEditor from "@nteract/editor";
 import { createConfigCollection, createDeprecatedConfigOption, defineConfigOption, HasPrivateConfigurationState } from "@nteract/mythic-configuration";
 import { connect } from "react-redux";
+import { Dispatch } from "redux";
 
 const codeMirrorConfig = createConfigCollection({
   key: "codeMirror",
@@ -15,16 +16,16 @@ createDeprecatedConfigOption({
 });
 
 const BOOLEAN = [
-  {label: "Yes", value: true},
-  {label: "No", value: false},
+  { label: "Yes", value: true },
+  { label: "No", value: false },
 ];
 
 defineConfigOption({
   label: "Blink Editor Cursor",
   key: "codeMirror.cursorBlinkRate",
   values: [
-    {label: "Yes", value: 530},
-    {label: "No", value: 0},
+    { label: "Yes", value: 530 },
+    { label: "No", value: 0 },
   ],
   defaultValue: 0,
 });
@@ -61,9 +62,9 @@ defineConfigOption({
   label: "Tab Size",
   key: "codeMirror.tabSize",
   values: [
-    {label: "2 Spaces", value: 2},
-    {label: "3 Spaces", value: 3},
-    {label: "4 Spaces", value: 4},
+    { label: "2 Spaces", value: 2 },
+    { label: "3 Spaces", value: 3 },
+    { label: "4 Spaces", value: 4 },
   ],
   defaultValue: 4,
 });
@@ -93,6 +94,11 @@ interface ComponentProps {
   id: string;
   contentRef: ContentRef;
   editorType: string;
+}
+
+interface DispatchProps {
+  focusAbove: () => void;
+  focusBelow: () => void;
 }
 
 const makeMapStateToProps = (state: AppState & HasPrivateConfigurationState, ownProps: ComponentProps) => {
@@ -147,4 +153,24 @@ const makeMapStateToProps = (state: AppState & HasPrivateConfigurationState, own
   return mapStateToProps;
 };
 
-export default connect(makeMapStateToProps)(CodeMirrorEditor);
+export const makeMapDispatchToProps = (
+  initialDispatch: Dispatch,
+  ownProps: ComponentProps
+) => {
+  const { id, contentRef } = ownProps;
+  const mapDispatchToProps = (dispatch: Dispatch) => {
+    return {
+      focusBelow: () => {
+        dispatch(actions.focusNextCell({ id, contentRef, createCellIfUndefined: true }));
+        dispatch(actions.focusNextCellEditor({ id, contentRef }));
+      },
+      focusAbove: () => {
+        dispatch(actions.focusPreviousCell({ id, contentRef }));
+        dispatch(actions.focusPreviousCellEditor({ id, contentRef }));
+      }
+    }
+  };
+  return mapDispatchToProps;
+};
+
+export default connect(makeMapStateToProps, makeMapDispatchToProps)(CodeMirrorEditor);

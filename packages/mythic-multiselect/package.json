@@ -1,6 +1,6 @@
 {
   "name": "@nteract/mythic-multiselect",
-  "version": "0.0.1",
+  "version": "0.0.4",
   "description": "For selecting multiple cells",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",

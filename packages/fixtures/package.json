@@ -1,6 +1,6 @@
 {
   "name": "@nteract/fixtures",
-  "version": "2.3.8",
+  "version": "2.3.11",
   "description": "",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
@@ -12,8 +12,8 @@
     "access": "public"
   },
   "dependencies": {
-    "@nteract/commutable": "^7.3.0",
-    "@nteract/reducers": "^5.0.0",
-    "@nteract/types": "^7.0.0"
+    "@nteract/commutable": "^7.3.3",
+    "@nteract/reducers": "^5.1.1",
+    "@nteract/types": "^7.1.1"
   }
 }

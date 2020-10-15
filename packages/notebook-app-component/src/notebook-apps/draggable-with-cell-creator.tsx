@@ -20,6 +20,7 @@ import DraggableCell from "../decorators/draggable";
 import HijackScroll from "../decorators/hijack-scroll";
 import KeyboardShortcuts from "../decorators/kbd-shortcuts";
 import UndoableCellDelete from "../decorators/undoable/undoable-cell-delete";
+import EditorLoader from "../decorators/editor-loader";
 
 interface ComponentProps {
   contentRef: ContentRef;
@@ -50,6 +51,7 @@ export class NotebookApp extends React.Component<ComponentProps> {
     return (
       <React.Fragment>
         <ThemeFromConfig>
+          <EditorLoader/>
           <KeyboardShortcuts contentRef={this.props.contentRef}>
             <Cells contentRef={this.props.contentRef}>
               {{

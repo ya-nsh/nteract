@@ -1,0 +1,41 @@
+name: Continous Integration
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-20.04
+    strategy:
+      matrix:
+        node-version: [12.x, 14.x]
+
+    steps:
+      - uses: actions/checkout@main
+      - name: Install dependencies
+        run: yarn
+      - name: Lint packages
+        run: yarn run test:lint
+      - name: Build all packages
+        run: yarn run build:all:ci
+      - name: Run tests
+        run: yarn test
+  
+  validate_dev_setup:
+    runs-on: ubuntu-20.04
+    strategy:
+      matrix:
+        node-version: [12.x, 14.x]
+    
+    steps:
+      - uses: actions/checkout@main
+      - name: Install dependencies
+        run: yarn
+      - name: Run destkop build
+        run: yarn build:desktop
+      - name: Run `yarn start`
+        run: yarn start

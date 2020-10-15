@@ -94,7 +94,7 @@ function buildMenuTemplate(
 
   const build = {
     separator: () => ({
-      type: "separator" as "separator",
+      type: "separator" as const,
     }),
 
     url: (label: string, url: string) => ({
@@ -119,7 +119,7 @@ function buildMenuTemplate(
         },
 
     submenu: (label: string, options: SubmenuOptions, sub: MenuDefinition) => ({
-      type: "submenu" as "submenu",
+      type: "submenu" as const,
       label: processString(label),
       role: options.role ?? undefined,
       submenu: Array.from(buildItems(sub)),

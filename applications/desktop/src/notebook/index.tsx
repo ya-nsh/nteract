@@ -78,6 +78,7 @@ import "@nteract/styles/command-palette.css";
 
 // Needs to be last
 import "@nteract/styles/editor-overrides.css";
+import "@nteract/styles/monaco/overrides.css";
 
 const contentRef = createContentRef();
 

@@ -9,7 +9,7 @@ export type JSONType = PrimitiveImmutable | JSONObject | JSONArray;
 export interface JSONObject {
   [key: string]: JSONType;
 }
-export interface JSONArray extends Array<JSONType> {}
+export type JSONArray = Array<JSONType>
 
 export type CellId = string;
 export function createCellId(): CellId {

@@ -1,5 +1,5 @@
 import { actions, AppState, ContentRef, selectors } from "@nteract/core";
-import { MonacoEditorProps } from "@nteract/monaco-editor";
+import { IMonacoProps as MonacoEditorProps } from "@nteract/monaco-editor";
 import * as React from "react";
 import { connect } from "react-redux";
 import { Dispatch } from "redux";
@@ -20,7 +20,7 @@ interface MappedStateProps {
   mimetype: string;
   text: string;
   contentRef: ContentRef;
-  theme: "light" | "dark";
+  theme?: "light" | "dark";
 }
 
 interface MappedDispatchProps {
@@ -69,8 +69,10 @@ export class TextFile extends React.PureComponent<
     return (
       <EditorContainer className="nteract-editor">
         <Editor
+          id={"no-cell-id-for-single-editor"}
+          contentRef={this.props.contentRef}
           theme={this.props.theme === "dark" ? "vs-dark" : "vs"}
-          mode={this.props.mimetype}
+          language={"plaintext"}
           editorFocused
           value={this.props.text}
           onChange={this.handleChange.bind(this)}
@@ -101,8 +103,7 @@ function makeMapStateToTextFileProps(
     return {
       contentRef,
       mimetype: content.mimetype != null ? content.mimetype : "text/plain",
-      text,
-      theme: selectors.currentTheme(state)
+      text
     };
   };
   return mapStateToTextFileProps;

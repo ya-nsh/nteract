@@ -76,7 +76,7 @@ const configureStore = makeConfigureStore<AppState>()({
     app: reducers.app,
     core: reducers.core as any,
   },
-  epics: coreEpics.allEpics as any,
+  epics: [...coreEpics.allEpics, coreEpics.launchKernelWhenNotebookSetEpic] as any,
   epicDependencies: { contentProvider: contents.JupyterContentProvider },
   enhancer: composeEnhancers,
 });

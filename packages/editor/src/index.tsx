@@ -87,7 +87,7 @@ type Mode = {
 export default class CodeMirrorEditor extends React.Component<
   CodeMirrorEditorProps,
   CodeMirrorEditorState
-> {
+  > {
   static defaultProps: Partial<CodeMirrorEditorProps> = {
     value: "",
     channels: null,
@@ -407,7 +407,7 @@ export default class CodeMirrorEditor extends React.Component<
       this.cm &&
       this.props.value !== undefined &&
       normalizeLineEndings(this.cm.getValue()) !==
-        normalizeLineEndings(this.props.value)
+      normalizeLineEndings(this.props.value)
     ) {
       if (this.props.preserveScrollPosition) {
         const prevScrollPosition = this.cm.getScrollInfo();
@@ -474,10 +474,9 @@ export default class CodeMirrorEditor extends React.Component<
   goLineDownOrEmit(editor: Editor & Doc): void {
     const cursor: Position = editor.getCursor();
     const lastLineNumber: number = editor.lastLine();
-    const lastLine: string = editor.getLine(lastLineNumber);
+
     if (
       cursor.line === lastLineNumber &&
-      cursor.ch === lastLine.length &&
       !editor.somethingSelected()
     ) {
       CodeMirror.signal(editor, "bottomBoundary");
@@ -528,13 +527,13 @@ export default class CodeMirrorEditor extends React.Component<
         />
         {tooltipNode
           ? ReactDOM.createPortal(
-              <Tooltip
-                bundle={bundle}
-                cursorCoords={cursorCoords}
-                deleteTip={this.deleteTip}
-              />,
-              tooltipNode
-            )
+            <Tooltip
+              bundle={bundle}
+              cursorCoords={cursorCoords}
+              deleteTip={this.deleteTip}
+            />,
+            tooltipNode
+          )
           : null}
       </React.Fragment>
     );

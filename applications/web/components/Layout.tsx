@@ -1,4 +1,4 @@
-import React, {  HTMLAttributes} from "react";
+import React, { HTMLAttributes } from "react";
 import styled from "styled-components";
 
 export const Layout = styled.div<Props>`
@@ -71,4 +71,3 @@ export const Side = styled.div<Props>`
 export interface Props extends HTMLAttributes<HTMLDivElement> {
   children?: React.ReactNode;
 }
-

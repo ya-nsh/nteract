@@ -11,6 +11,7 @@ import "codemirror/lib/codemirror.css";
 
 import "@nteract/styles/app.css";
 import "@nteract/styles/editor-overrides.css";
+import "@nteract/styles/monaco/overrides.css";
 import "@nteract/styles/global-variables.css";
 import "@nteract/styles/themes/base.css";
 import "@nteract/styles/themes/default.css";

@@ -9,6 +9,7 @@ import { makeModalsRecord, ModalsRecordProps } from "./modals";
 import { makeSidebarRecord, SidebarRecordProps } from "./sidebar";
 import { makeTransformsRecord, TransformsRecordProps } from "./transforms";
 import { makeCommsRecord, CommsRecordProps } from "./comms";
+import { makeEditorsRecord, EditorComponentProps} from "./editors"
 
 export * from "./comms";
 export * from "./contents";
@@ -20,6 +21,7 @@ export * from "./messages";
 export * from "./modals";
 export * from "./transforms";
 export * from "./sidebar";
+export * from "./editors";
 
 export interface EntitiesRecordProps {
   comms: Immutable.RecordOf<CommsRecordProps>;
@@ -31,6 +33,7 @@ export interface EntitiesRecordProps {
   transforms: Immutable.RecordOf<TransformsRecordProps>;
   messages: Immutable.RecordOf<MessagesRecordProps>;
   sidebar: Immutable.RecordOf<SidebarRecordProps>;
+  editors: Immutable.RecordOf<EditorComponentProps>;
 }
 
 export type EntitiesRecord = Immutable.RecordOf<EntitiesRecordProps>;
@@ -45,4 +48,5 @@ export const makeEntitiesRecord = Immutable.Record<EntitiesRecordProps>({
   transforms: makeTransformsRecord(),
   messages: makeMessagesRecord(),
   sidebar: makeSidebarRecord(),
+  editors: makeEditorsRecord(),
 });

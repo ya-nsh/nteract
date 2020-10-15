@@ -31,7 +31,6 @@ interface CellProps {
 export class Cells extends React.Component<StateProps & ComponentProps> {
   render() {
     const { cellOrder, contentRef, children } = this.props;
-
     const defaults = {
       markdown: (props: CellProps) => (
         <MarkdownCell
@@ -73,11 +72,11 @@ export class Cells extends React.Component<StateProps & ComponentProps> {
 export const makeMapStateToProps = (
   state: AppState,
   ownProps: ComponentProps
-): ((state: AppState) => StateProps) => {
-  const mapStateToProps = (state: AppState) => {
+): ((state: AppState, ownProps: ComponentProps) => StateProps) => {
+
+  const mapStateToProps = (state: AppState, ownProps: ComponentProps) => {
     const { contentRef } = ownProps;
     const model = selectors.model(state, { contentRef });
-
     let cellOrder = Immutable.List();
 
     if (model && model.type === "notebook") {

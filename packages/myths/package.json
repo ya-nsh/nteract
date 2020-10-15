@@ -1,6 +1,6 @@
 {
   "name": "@nteract/myths",
-  "version": "0.2.0",
+  "version": "0.2.3",
   "description": "A redux-observable framework for better locality of dependencies",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",

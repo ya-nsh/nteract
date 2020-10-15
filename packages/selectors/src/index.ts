@@ -12,6 +12,7 @@ export * from "./core/hosts";
 export * from "./core/kernels";
 export * from "./core/kernelspecs";
 export * from "./core/transforms";
+export * from "./core/editors";
 export * from "./app";
 export * from "./comms";
 

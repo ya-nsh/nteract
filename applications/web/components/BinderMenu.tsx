@@ -1,11 +1,11 @@
-import React, { FC,  HTMLAttributes,  useState  } from "react";
+import React, { FC, HTMLAttributes, useState } from "react";
 import styled from "styled-components";
 import { Button } from "./Button";
 import { Input } from "./Input";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faRocket } from "@fortawesome/free-solid-svg-icons"
 
-const rocketIcon =  <FontAwesomeIcon icon={faRocket} />
+const rocketIcon = <FontAwesomeIcon icon={faRocket} />
 
 
 const BinderMenuDiv = styled.div<Props>`
@@ -47,47 +47,47 @@ export interface Props extends HTMLAttributes<HTMLDivElement> {
   updateVCSInfo: (e: React.FormEvent<HTMLFormElement>, x: string | undefined, y: string | undefined, z: string | undefined, a: string | undefined) => void;
 }
 
-function useInput(val: string | undefined ){
+function useInput(val: string | undefined) {
   const [value, setValue] = useState(val);
-  
+
   function handleChange(e: React.FormEvent<HTMLInputElement> | React.FormEvent<HTMLSelectElement>) {
     setValue(e.currentTarget.value);
   }
-  
-  return { 
-    value, 
+
+  return {
+    value,
     onChange: handleChange
   }
 }
 
- 
+
 export const BinderMenu: FC<Props> = (props: Props) => {
   const provider = useInput(props.provider)
-  const org = useInput( props.org)
+  const org = useInput(props.org)
   const repo = useInput(props.repo)
   const gitRef = useInput(props.gitRef)
-   
+
   return (
-       <>
+    <>
 
       <BinderMenuDiv {...props}>
 
         <img className="binder-logo" alt="binder-logo" src="https://mybinder.org/static/logo.svg?v=f9f0d927b67cc9dc99d788c822ca21c0" />
-        <form onSubmit={(e) => props.updateVCSInfo( e, provider.value, org.value, repo.value, gitRef.value )} >
-          <div style={{display: "flex",  marginTop: "-25px"}} >
-                <Input id="provider" variant="select" label="VCS"  { ...provider} style={{width: "120px"}}>
-                      <option value="gh">Github</option>
-                </Input>
-                <Input id="owner" label="Owner" {...org} autoFocus />
-                <Input id="repo" label="Repository" {...repo}/>
-                <Input id="branch"  label="Branch" {...gitRef}/>
-            </div>
-          <Button id="launch_button" text="Launch" style={ {marginLeft: '30px'}} icon={rocketIcon} />
-          </form>
+        <form onSubmit={(e) => props.updateVCSInfo(e, provider.value, org.value, repo.value, gitRef.value)} >
+          <div style={{ display: "flex", marginTop: "-25px" }} >
+            <Input id="provider" variant="select" label="VCS"  {...provider} style={{ width: "120px" }}>
+              <option value="gh">Github</option>
+            </Input>
+            <Input id="owner" label="Owner" {...org} autoFocus />
+            <Input id="repo" label="Repository" {...repo} />
+            <Input id="branch" label="Branch" {...gitRef} />
+          </div>
+          <Button id="launch_button" text="Launch" style={{ marginLeft: '30px' }} icon={rocketIcon} />
+        </form>
       </BinderMenuDiv>
-      </>
-      );
-  } 
+    </>
+  );
+}
 
 // If we want to pass on the default values
 BinderMenu.defaultProps = {
@@ -96,4 +96,3 @@ BinderMenu.defaultProps = {
   repo: "examples",
   gitRef: "master",
 }
-

@@ -245,7 +245,7 @@ openFile$
 
         if (passedKernel && passedKernel in specs) {
           kernel = passedKernel;
-        } else if (!kernel && !(kernel in specs)) {
+        } else if (!kernel || !(kernel in specs)) {
           const specList = Object.keys(specs);
           specList.sort();
           kernel = specList[0];
@@ -253,6 +253,8 @@ openFile$
 
         if (kernel && specs[kernel]) {
           launchNewNotebook(filepath, specs[kernel]);
+        } else {
+          log.error(`can't find kernel "${kernel}" in:`, specs);
         }
       });
     };

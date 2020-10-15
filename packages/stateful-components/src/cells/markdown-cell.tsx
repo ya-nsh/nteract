@@ -7,8 +7,7 @@ import { actions, AppState, ContentRef, selectors } from "@nteract/core";
 import { MarkdownPreviewer } from "@nteract/markdown";
 import { Source } from "@nteract/presentational-components";
 
-import Editor, { EditorSlots, PassedEditorProps } from "../inputs/editor";
-import CodeMirrorEditor from "../inputs/connected-editors/codemirror";
+import Editor, { EditorSlots } from "../inputs/editor";
 
 import { ImmutableCell } from "@nteract/commutable/src";
 import { ReactMarkdownProps } from "react-markdown";
@@ -62,15 +61,11 @@ export class PureMarkdownCell extends React.Component<
       unfocusEditor,
     } = this.props;
 
-    const defaults = {
-      editor: {
-        codemirror: (props: PassedEditorProps) => (
-          <CodeMirrorEditor {...props} editorType={"codemirror"} />
-        ),
-      },
-    };
-
-    const editor = children?.editor || defaults.editor;
+    /**
+     * We don't set the editor slots as defaults to support dynamic imports
+     * Users can continue to add the editorSlots as children
+     */
+    const editor = children?.editor
     const toolbar = children?.toolbar;
 
     const source = cell ? cell.get("source", "") : "";

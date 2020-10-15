@@ -69,3 +69,6 @@ site/
 applications/jupyter-extension/pip-wheel-metadata/
 
 applications/desktop/**/*.d.ts
+/.python-version
+
+applications/desktop/.env

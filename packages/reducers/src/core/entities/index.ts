@@ -12,6 +12,7 @@ import { messages } from "./messages";
 import { modals } from "./modals";
 import { sidebar } from "./sidebar";
 import { transforms } from "./transforms";
+import { editors } from "./editors";
 
 export const entities = combineReducers(
   {
@@ -24,6 +25,7 @@ export const entities = combineReducers(
     modals,
     sidebar,
     transforms,
+    editors
   },
   makeEntitiesRecord as any
 );

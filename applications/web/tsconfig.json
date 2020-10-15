@@ -15,8 +15,7 @@
     "resolveJsonModule": true
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
-  "references": [
-    {
+  "references": [{
       "path": "../../packages/host-cache"
     },
     {

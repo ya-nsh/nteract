@@ -50,7 +50,7 @@ export const DeleteCell: DesktopCommand<ReqContent> = {
   props: {
     contentRef: "required",
   },
-  makeAction: actions.deleteCell,
+  makeAction: actions.markCellAsDeleting.with({ id: undefined }),
 };
 
 export const NewCodeCellAbove: DesktopCommand<ReqContent> = {

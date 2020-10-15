@@ -1,7 +1,8 @@
-import * as React from "react";
+import React, { useState, useEffect } from "react";
 import { Dispatch } from "redux";
 import { connect } from "react-redux";
 import {
+  AppState,
   actions,
   createContentRef,
   createKernelRef,
@@ -11,72 +12,90 @@ import {
   makeJupyterHostRecord,
   ServerConfig
 } from "@nteract/core";
-import NotebookApp from "@nteract/notebook-app-component";
-import styled from "styled-components";
+import NotebookApp from "@nteract/notebook-app-component/lib/notebook-apps/web-draggable";
+import { contentRefByFilepath } from "@nteract/selectors";
+import { createNotebookModel } from "../util/helpers"
 
 type ComponentProps = {
   filepath: string,
+  getContent: (x: string) => Promise<any>,
   host: ServerConfig
 }
 
 interface DispatchProps {
   setAppHost: (host: HostRecord) => void;
-  fetchContent: (
-    filepath: string,
-    contentRef: ContentRef,
-    kernelRef: KernelRef
-  ) => void;
+  fetchContentFulfilled: (filepath: string, model: any, contentRef: ContentRef, kernelRef: KernelRef) => void;
 }
 
-type Props = ComponentProps & DispatchProps;
-
-type State = {
-  contentRef: ContentRef;
-  kernelRef: KernelRef;
+type StateProps = {
+  contentRef: string
 }
 
-const BinderDiv = styled.div`
-    
-`;
+type Props = ComponentProps & DispatchProps & StateProps;
 
-class Binder extends React.Component<Props, State> {
-    constructor(props){
-        super(props);
-        props.setAppHost(
-          makeJupyterHostRecord({ ...props.host, origin: props.host.endpoint })
-        );
-        
-        this.state = {
-          contentRef: createContentRef(),
-          kernelRef: createKernelRef(),
-        }
+const makeMapStateToProps = (initialState: AppState, ownProps: ComponentProps) => {
+  const mapStateToProps = (state: AppState, ownProps: ComponentProps): StateProps => {
+    const { filepath } = ownProps
+    const ref = contentRefByFilepath(state, { filepath: filepath })
+    return { contentRef: ref }
+  }
+
+  return mapStateToProps
+};
+
+const mapDispatchToProps = (dispatch: Dispatch) => ({
+  setAppHost: (host: HostRecord) => dispatch(actions.setAppHost({ host })),
+  fetchContentFulfilled: (filepath: string, model: any, contentRef: ContentRef, kernelRef: KernelRef) => dispatch(actions.fetchContentFulfilled({ filepath, model, contentRef, kernelRef }))
+});
+
+const Binder = (props: Props) => {
+  const [contentRef, setContentRef] = useState("")
+  const { filepath } = props
+  // We need to fetch content again as the filePath has been updated
+  useEffect(() => {
+    if (props.contentRef === undefined) {
+      // Since contentRef for filepath is undefined
+      // We generate new contentRef and use that
+      const cr = createContentRef()
+      const kr = createKernelRef()
+      setContentRef(cr)
+
+      // Get content from github
+      props.getContent(filepath).then(({ data }) => {
+        const content = atob(data['content'])
+        const notebook = createNotebookModel(filepath, content);
+        // Set content in store
+        props.fetchContentFulfilled(filepath, notebook, cr, kr);
+      })
+    } else {
+      setContentRef(props.contentRef)
     }
 
-    componentDidMount() {
-      const { filepath } = this.props;
-      const { contentRef, kernelRef } = this.state;
-      this.props.fetchContent(filepath, contentRef, kernelRef);
+  }, [filepath])
+
+  // Once the host is set, add it
+  useEffect(() => {
+    if (props.host.endpoint != "") {
+      props.setAppHost(makeJupyterHostRecord({
+        ...props.host,
+        origin: props.host.endpoint
+      }));
     }
 
-    render() {
-      return (
-        <BinderDiv>  
-            { this.state.contentRef ? (<NotebookApp contentRef={this.state.contentRef} />) : "Wating"}
-        </BinderDiv>    
-      );
-    }
-  } 
+  }, [props.host])
 
-  const mapDispatchToProps = (dispatch: Dispatch) => ({
-    setAppHost: (host: HostRecord) => dispatch(actions.setAppHost({ host })),
-    fetchContent: (
-      filepath: string,
-      contentRef: ContentRef,
-      kernelRef: KernelRef
-    ) =>
-      dispatch(
-        actions.fetchContent({ filepath, contentRef, kernelRef, params: {} })
-      )
-  });
+  return ( < NotebookApp contentRef={contentRef} />)
 
-  export default connect(null, mapDispatchToProps)(Binder);
+}
+
+
+// If we want to pass on the default values
+Binder.defaultProps = {
+  host: {
+    crossDomain: true,
+    endpoint: "",
+    token: "",
+  }
+}
+
+export default connect(makeMapStateToProps, mapDispatchToProps)(Binder);

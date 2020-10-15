@@ -60,8 +60,8 @@ interface MimeOutput<T extends string = string> extends MimePayload {
   metadata: object;
 }
 
-export interface ExecuteResult extends MimeOutput<"pyout"> {}
-export interface DisplayData extends MimeOutput<"display_data"> {}
+export type ExecuteResult = MimeOutput<"pyout">
+export type DisplayData = MimeOutput<"display_data">
 export interface ErrorOutput {
   output_type: "error" | "pyerr";
   ename: string;

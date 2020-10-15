@@ -1,4 +1,4 @@
-import React, { FC,  HTMLAttributes, MutableRefObject } from "react";
+import React, { FC, HTMLAttributes, MutableRefObject } from "react";
 import styled from "styled-components";
 
 export const Shadow = styled.div<Props>`
@@ -49,10 +49,9 @@ export interface Props extends HTMLAttributes<HTMLDivElement> {
 }
 
 export const Dialog: FC<Props> = (props: Props) => {
-      return (
-        <DialogBox >
-          {props.children} 
-        </DialogBox>
-      );
-  } 
-
+  return (
+    <DialogBox >
+      {props.children}
+    </DialogBox>
+  );
+}

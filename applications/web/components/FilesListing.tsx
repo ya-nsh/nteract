@@ -1,5 +1,5 @@
 import { Octokit } from "@octokit/rest";
-import React, { FC,  HTMLAttributes, useState, useEffect} from "react";
+import React, { FC, HTMLAttributes, useState, useEffect } from "react";
 import { FileExplorer } from "./FileExplorer"
 import styled from "styled-components";
 
@@ -30,23 +30,19 @@ export const FilesListing: FC<Props> = (props: Props) => {
 
   const [data, setData] = useState([[""]])
 
-  useEffect( () => {  
+  useEffect(() => {
     console.log("refreshed")
-    props.loadFolder("").then( (newData: any) => {
+    props.loadFolder("").then((newData: any) => {
       setData(newData)
     })
   }, [props.org, props.repo, props.gitRef])
 
-return (
-        <>
-          <Heading> { props.org}/{props.repo} [{props.gitRef}] </Heading>
-          <Body>
-          <FileExplorer data={data} folderLoading={props.loadFolder}  fileLoading={props.loadFile} />
-          </Body>
-        </>
-      );
-  } 
-
-
-
-
+  return (
+    <>
+      <Heading> {props.org}/{props.repo} [{props.gitRef}] </Heading>
+      <Body>
+        <FileExplorer data={data} folderLoading={props.loadFolder} fileLoading={props.loadFile} />
+      </Body>
+    </>
+  );
+}

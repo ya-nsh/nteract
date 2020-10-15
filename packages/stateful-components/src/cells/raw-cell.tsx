@@ -6,8 +6,7 @@ import { ImmutableCell } from "@nteract/commutable";
 import { actions, AppState, ContentRef } from "@nteract/core";
 import { Source } from "@nteract/presentational-components";
 
-import Editor, { PassedEditorProps, EditorSlots } from "../inputs/editor";
-import CodeMirrorEditor from "../inputs/connected-editors/codemirror";
+import Editor, { EditorSlots } from "../inputs/editor";
 
 interface NamedRawCellSlots {
   editor?: EditorSlots;
@@ -33,15 +32,11 @@ export class PureRawCell extends React.Component<
   render() {
     const { id, contentRef, children } = this.props;
 
-    const defaults = {
-      editor: {
-        codemirror: (props: PassedEditorProps) => (
-          <CodeMirrorEditor {...props} editorType={"codemirror"} />
-        )
-      }
-    };
-
-    const editor = children?.editor || defaults.editor;
+    /**
+     * We don't set the editor slots as defaults to support dynamic imports
+     * Users can continue to add the editorSlots as children
+     */
+    const editor = children?.editor;
     const toolbar = children?.toolbar;
 
     return (

@@ -5,8 +5,8 @@ import { ContentRef } from "@nteract/core";
 import { KernelOutputError, Media, StreamText } from "@nteract/outputs";
 import { Source } from "@nteract/presentational-components";
 
-import Editor, { PassedEditorProps, EditorSlots } from "../inputs/editor";
-import CodeMirrorEditor from "../inputs/connected-editors/codemirror";
+import Editor, { EditorSlots } from "../inputs/editor";
+
 import Input from "../inputs/input";
 import Prompt, { PassedPromptProps } from "../inputs/prompt";
 import Outputs from "../outputs";
@@ -58,11 +58,7 @@ export default class CodeCell extends React.Component<ComponentProps> {
           }}
         </Prompt>
       ),
-      editor: {
-        codemirror: (props: PassedEditorProps) => (
-          <CodeMirrorEditor {...props} editorType={"codemirror"} />
-        ),
-      },
+
       pagers: (props: any) => (
         <Pagers id={id} contentRef={contentRef}>
           <Media.Json />
@@ -97,7 +93,12 @@ export default class CodeCell extends React.Component<ComponentProps> {
     };
 
     const prompt = children?.prompt || defaults.prompt;
-    const editor = children?.editor || defaults.editor;
+
+    /**
+     * We don't set the editor slots as defaults to support dynamic imports
+     * Users can continue to add the editorSlots as children
+     */
+    const editor = children?.editor;
     const pagers = children?.pagers || defaults.pagers;
     const inputPrompts = children?.pagers || defaults.inputPrompts;
     const outputs = children?.outputs || defaults.outputs;

@@ -1,6 +1,6 @@
 {
   "name": "@nteract/mythic-configuration",
-  "version": "1.0.0",
+  "version": "1.0.3",
   "description": "A configuration system based on the myths redux framework",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
@@ -14,7 +14,7 @@
     "access": "public"
   },
   "dependencies": {
-    "@nteract/myths": "^0.2.0",
+    "@nteract/myths": "^0.2.3",
     "fs-observable": "^4.1.14"
   },
   "author": "nteract contributers",

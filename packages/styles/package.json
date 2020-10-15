@@ -1,6 +1,6 @@
 {
   "name": "@nteract/styles",
-  "version": "2.2.0",
+  "version": "2.2.3",
   "description": "css for use in nteract apps",
   "main": "index.js",
   "types": "index.d.ts",
@@ -12,6 +12,7 @@
     "toggle-switch.css",
     "themes",
     "markdown",
+    "monaco",
     "cell-menu",
     "command-palette.css",
     "toolbar.css"
